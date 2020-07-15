@@ -6,7 +6,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample;
+package edu.nju.seg.mlb;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

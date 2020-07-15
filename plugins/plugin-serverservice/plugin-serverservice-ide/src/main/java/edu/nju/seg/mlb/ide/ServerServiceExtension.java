@@ -6,14 +6,14 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample.ide;
+package edu.nju.seg.mlb.ide;
 
 import com.google.inject.Inject;
+import edu.nju.seg.mlb.ide.action.MyAction;
 import org.eclipse.che.ide.api.action.ActionManager;
 import org.eclipse.che.ide.api.action.DefaultActionGroup;
 import org.eclipse.che.ide.api.action.IdeActions;
 import org.eclipse.che.ide.api.extension.Extension;
-import org.eclipse.che.sample.ide.action.MyAction;
 
 /**
  * Server service extension that registers action which calls a service.

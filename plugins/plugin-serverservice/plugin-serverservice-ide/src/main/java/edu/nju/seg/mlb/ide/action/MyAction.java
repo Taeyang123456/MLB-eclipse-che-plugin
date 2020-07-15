@@ -6,11 +6,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample.ide.action;
+package edu.nju.seg.mlb.ide.action;
 
-import static org.eclipse.che.sample.ide.action.StaticObject.notificationManager;
+import static edu.nju.seg.mlb.ide.action.StaticObject.notificationManager;
 
 import com.google.inject.Inject;
+import edu.nju.seg.mlb.ide.MyServiceClient;
 import org.eclipse.che.api.promises.client.Operation;
 import org.eclipse.che.api.promises.client.OperationException;
 import org.eclipse.che.api.promises.client.PromiseError;
@@ -20,7 +21,6 @@ import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.editor.EditorAgent;
 import org.eclipse.che.ide.api.notification.NotificationManager;
 import org.eclipse.che.ide.api.notification.StatusNotification;
-import org.eclipse.che.sample.ide.MyServiceClient;
 
 /**
  * Actions that triggers the sample server service call.

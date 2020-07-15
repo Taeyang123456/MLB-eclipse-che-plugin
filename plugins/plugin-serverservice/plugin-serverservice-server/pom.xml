@@ -13,7 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>plugin-serverservice-parent</artifactId>
-        <groupId>org.eclipse.che.sample</groupId>
+        <groupId>edu.nju.seg.mlb</groupId>
         <version>6.16.0</version>
     </parent>
     <artifactId>plugin-serverservice-server</artifactId>

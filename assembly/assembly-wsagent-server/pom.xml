@@ -13,7 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>plugin-serverservice-assembly-parent</artifactId>
-        <groupId>org.eclipse.che.sample</groupId>
+        <groupId>edu.nju.seg.mlb</groupId>
         <version>6.16.0</version>
     </parent>
     <artifactId>assembly-wsagent-server</artifactId>
@@ -21,7 +21,7 @@
     <name>Plugin ServerService :: Che Assembly :: Workspace Agent Tomcat Assembly</name>
     <dependencies>
         <dependency>
-            <groupId>org.eclipse.che.sample</groupId>
+            <groupId>edu.nju.seg.mlb</groupId>
             <artifactId>assembly-wsagent-war</artifactId>
             <type>war</type>
         </dependency>

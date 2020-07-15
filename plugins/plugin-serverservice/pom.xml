@@ -13,7 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>plugin-parent</artifactId>
-        <groupId>org.eclipse.che.sample</groupId>
+        <groupId>edu.nju.seg.mlb</groupId>
         <version>6.16.0</version>
     </parent>
     <artifactId>plugin-serverservice-parent</artifactId>
@@ -30,7 +30,7 @@
                 <artifactId>gwt-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>org.eclipse.che.sample.ServerServiceExtension</moduleName>
+                    <moduleName>edu.nju.seg.mlb.ServerServiceExtension</moduleName>
                 </configuration>
             </plugin>
         </plugins>
