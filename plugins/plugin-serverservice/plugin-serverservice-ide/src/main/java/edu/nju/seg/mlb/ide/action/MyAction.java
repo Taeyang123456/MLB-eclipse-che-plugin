@@ -12,6 +12,7 @@ import static edu.nju.seg.mlb.ide.action.StaticObject.notificationManager;
 
 import com.google.inject.Inject;
 import edu.nju.seg.mlb.ide.MyServiceClient;
+import java.util.List;
 import org.eclipse.che.api.promises.client.Operation;
 import org.eclipse.che.api.promises.client.OperationException;
 import org.eclipse.che.api.promises.client.PromiseError;
@@ -21,11 +22,14 @@ import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.editor.EditorAgent;
 import org.eclipse.che.ide.api.notification.NotificationManager;
 import org.eclipse.che.ide.api.notification.StatusNotification;
+import org.eclipse.che.ide.api.resources.File;
+import org.eclipse.che.ide.part.explorer.project.ProjectExplorerPresenter;
+import org.eclipse.che.ide.resources.tree.FileNode;
 
 /**
  * Actions that triggers the sample server service call.
  *
- * @author Edgar Mueller
+ * @author Taeyang
  */
 public class MyAction extends BaseAction {
 
@@ -40,12 +44,14 @@ public class MyAction extends BaseAction {
       final NotificationManager notificationManager,
       final MyServiceClient serviceClient,
       final EditorAgent editorAgent,
-      final AppContext appContext) {
+      final AppContext appContext,
+      final ProjectExplorerPresenter projectExplorerPresenter) {
     super("Test Analyse", "MLB Action Description");
     StaticObject.notificationManager = notificationManager;
     StaticObject.serviceClient = serviceClient;
     StaticObject.editorAgent = editorAgent;
     StaticObject.appContext = appContext;
+    StaticObject.projectExplorerPresenter = projectExplorerPresenter;
   }
 
   @Override
@@ -54,8 +60,20 @@ public class MyAction extends BaseAction {
     // This method is in our org.eclipse.che.plugin.serverservice.ide.MyServiceClient class
     // This is a Promise, so the .then() method is invoked after the response is made
 
-    String fileUrl =
-        StaticObject.editorAgent.getActiveEditor().getEditorInput().getFile().getContentUrl();
+    List<?> selection = StaticObject.projectExplorerPresenter.getSelection().getAllElements();
+    String fileUrl;
+
+    if ((selection.size() == 1)
+        && (selection.get(0) instanceof FileNode)
+        && (((FileNode) selection.get(0)).getData() instanceof File)) {
+      fileUrl = ((FileNode) selection.get(0)).getData().getContentUrl();
+    } else {
+      notificationManager.notify(
+          "Please choose a .jpf file for testing",
+          StatusNotification.Status.FAIL,
+          StatusNotification.DisplayMode.EMERGE_MODE);
+      return;
+    }
 
     String[] fileName = fileUrl.split("/");
     String realFileName = fileName[fileName.length - 1];
@@ -86,14 +104,14 @@ public class MyAction extends BaseAction {
                 @Override
                 public void apply(PromiseError error) throws OperationException {
                   notificationManager.notify(
-                      "Fail",
+                      "Failed",
                       StatusNotification.Status.FAIL,
                       StatusNotification.DisplayMode.FLOAT_MODE);
                 }
               });
     } else {
       notificationManager.notify(
-          "Please choose .jpf file for testing",
+          "Please choose a .jpf file for testing",
           StatusNotification.Status.FAIL,
           StatusNotification.DisplayMode.EMERGE_MODE);
       return;

@@ -36,6 +36,12 @@
             <groupId>org.eclipse.che.core</groupId>
             <artifactId>che-core-ide-api</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.che.core/che-core-ide-app -->
+        <dependency>
+            <groupId>org.eclipse.che.core</groupId>
+            <artifactId>che-core-ide-app</artifactId>
+            <version>6.16.0</version>
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
