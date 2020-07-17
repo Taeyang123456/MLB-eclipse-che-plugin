@@ -84,7 +84,7 @@ public class MyAction extends BaseAction {
     */
     if (realFileName.endsWith(".jpf")) {
       StaticObject.serviceClient
-          .getHello("Test Analyse with " + realFileName + " !")
+          .getHello(fileUrl.replaceAll("/", "_"))
           .then(
               response -> {
                 // This passes the response String to the notification manager.
