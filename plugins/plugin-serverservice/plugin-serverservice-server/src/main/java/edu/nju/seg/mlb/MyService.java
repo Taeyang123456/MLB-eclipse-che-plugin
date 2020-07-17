@@ -8,9 +8,11 @@
  */
 package edu.nju.seg.mlb;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import org.eclipse.che.api.fs.server.FsManager;
 
 /**
  * Example server service that greets the user.
@@ -19,6 +21,12 @@ import javax.ws.rs.PathParam;
  */
 @Path("hello")
 public class MyService {
+  private FsManager fsManager;
+
+  @Inject
+  public MyService(FsManager fsManager) {
+    this.fsManager = fsManager;
+  }
 
   /**
    * Returns a greeting message.
@@ -29,6 +37,7 @@ public class MyService {
   @GET
   @Path("{name}")
   public String sayHello(@PathParam("name") String name) {
-    return "Hello " + name + "!";
+    if (fsManager == null) return "Hello " + name + "!";
+    else return fsManager.toString();
   }
 }
