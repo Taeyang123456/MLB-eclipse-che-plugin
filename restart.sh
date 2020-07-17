@@ -6,12 +6,12 @@
 # 应该会看到两个或更多的 eclipse che 相关的容器,分别是平台和具体的 workspace,两
 # 个容器都需要关闭,根据启动时间先关闭最近启动的容器,再关闭最早启动的容器
 # $sudo docker stop {containerID}
-sudo docker stop 8487c1262362 # eclipse-che/workspace4y0ryq9e60jt6ucc_null_che_dev-machine
-sudo docker stop 54c4fb52d784 # eclipse/che-server:6.16.0
+# $sudo docker stop 8487c1262362  #eclipse-che/workspace4y0ryq9e60jt6ucc_null_che_dev-machine
+sudo docker stop 05f47423dcb1  # eclipse/che-server:6.16.0
 
 # 重新编译该插件
 # 返回至 demo git 目录下
-mvn clean install -DskipTests
+mvn clean fmt:format install -DskipTests
 
 # 重新启动 eclipse che 查看修改结果
 sudo docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock \

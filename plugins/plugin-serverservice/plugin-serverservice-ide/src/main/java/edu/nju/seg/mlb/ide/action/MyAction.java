@@ -13,9 +13,6 @@ import static edu.nju.seg.mlb.ide.action.StaticObject.notificationManager;
 import com.google.inject.Inject;
 import edu.nju.seg.mlb.ide.MyServiceClient;
 import java.util.List;
-import org.eclipse.che.api.promises.client.Operation;
-import org.eclipse.che.api.promises.client.OperationException;
-import org.eclipse.che.api.promises.client.PromiseError;
 import org.eclipse.che.ide.api.action.ActionEvent;
 import org.eclipse.che.ide.api.action.BaseAction;
 import org.eclipse.che.ide.api.app.AppContext;
@@ -89,32 +86,25 @@ public class MyAction extends BaseAction {
       StaticObject.serviceClient
           .getHello("Test Analyse with " + realFileName + " !")
           .then(
-              new Operation<String>() {
-                @Override
-                public void apply(String response) throws OperationException {
-                  // This passes the response String to the notification manager.
-                  notificationManager.notify(
-                      response,
-                      StatusNotification.Status.SUCCESS,
-                      StatusNotification.DisplayMode.FLOAT_MODE);
-                }
+              response -> {
+                // This passes the response String to the notification manager.
+                notificationManager.notify(
+                    response,
+                    StatusNotification.Status.SUCCESS,
+                    StatusNotification.DisplayMode.FLOAT_MODE);
               })
           .catchError(
-              new Operation<PromiseError>() {
-                @Override
-                public void apply(PromiseError error) throws OperationException {
-                  notificationManager.notify(
-                      "Failed",
-                      StatusNotification.Status.FAIL,
-                      StatusNotification.DisplayMode.FLOAT_MODE);
-                }
+              error -> {
+                notificationManager.notify(
+                    "Failed",
+                    StatusNotification.Status.FAIL,
+                    StatusNotification.DisplayMode.FLOAT_MODE);
               });
     } else {
       notificationManager.notify(
           "Please choose a .jpf file for testing",
           StatusNotification.Status.FAIL,
           StatusNotification.DisplayMode.EMERGE_MODE);
-      return;
     }
   }
 }
