@@ -77,10 +77,9 @@ public class MyAction extends BaseAction {
     StaticObject.serviceClient
         .getHello(dirUrl.toString())
         .then(
-            response -> {
-              // This passes the response String to the notification manager.
+            message -> {
               notificationManager.notify(
-                  response,
+                  message,
                   StatusNotification.Status.SUCCESS,
                   StatusNotification.DisplayMode.FLOAT_MODE);
             })
