@@ -19,9 +19,8 @@ import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.editor.EditorAgent;
 import org.eclipse.che.ide.api.notification.NotificationManager;
 import org.eclipse.che.ide.api.notification.StatusNotification;
-import org.eclipse.che.ide.api.resources.File;
 import org.eclipse.che.ide.part.explorer.project.ProjectExplorerPresenter;
-import org.eclipse.che.ide.resources.tree.FileNode;
+import org.eclipse.che.ide.resources.tree.ContainerNode;
 
 /**
  * Actions that triggers the sample server service call.
@@ -58,23 +57,16 @@ public class MyAction extends BaseAction {
     // This is a Promise, so the .then() method is invoked after the response is made
 
     List<?> selection = StaticObject.projectExplorerPresenter.getSelection().getAllElements();
-    String fileUrl;
+    StringBuilder dirUrl = new StringBuilder();
 
-    if ((selection.size() == 1)
-        && (selection.get(0) instanceof FileNode)
-        && (((FileNode) selection.get(0)).getData() instanceof File)) {
-      fileUrl = ((FileNode) selection.get(0)).getData().getContentUrl();
+    if (selection.size() == 1 && selection.get(0) instanceof ContainerNode) {
+      for (String seg : ((ContainerNode) selection.get(0)).getData().getLocation().segments())
+        dirUrl.append(seg + "_");
+
     } else {
       notificationManager.notify(
-          "Please choose a .jpf file for testing",
-          StatusNotification.Status.FAIL,
-          StatusNotification.DisplayMode.EMERGE_MODE);
-      return;
+          "请在项目目录上右键", StatusNotification.Status.FAIL, StatusNotification.DisplayMode.FLOAT_MODE);
     }
-
-    String[] fileName = fileUrl.split("/");
-    String realFileName = fileName[fileName.length - 1];
-
     /*
     // code for attemping the function : cursor right-click on file menu
     String attempUrl = StaticObject.appContext.getWsAgentServerApiEndpoint();
@@ -82,29 +74,22 @@ public class MyAction extends BaseAction {
 
     String testStr = attempUrl + " " + workspaceId;
     */
-    if (realFileName.endsWith(".jpf")) {
-      StaticObject.serviceClient
-          .getHello(fileUrl.replaceAll("/", "_"))
-          .then(
-              response -> {
-                // This passes the response String to the notification manager.
-                notificationManager.notify(
-                    response,
-                    StatusNotification.Status.SUCCESS,
-                    StatusNotification.DisplayMode.FLOAT_MODE);
-              })
-          .catchError(
-              error -> {
-                notificationManager.notify(
-                    "Failed",
-                    StatusNotification.Status.FAIL,
-                    StatusNotification.DisplayMode.FLOAT_MODE);
-              });
-    } else {
-      notificationManager.notify(
-          "Please choose a .jpf file for testing",
-          StatusNotification.Status.FAIL,
-          StatusNotification.DisplayMode.EMERGE_MODE);
-    }
+    StaticObject.serviceClient
+        .getHello(dirUrl.toString())
+        .then(
+            response -> {
+              // This passes the response String to the notification manager.
+              notificationManager.notify(
+                  response,
+                  StatusNotification.Status.SUCCESS,
+                  StatusNotification.DisplayMode.FLOAT_MODE);
+            })
+        .catchError(
+            error -> {
+              notificationManager.notify(
+                  "Failed",
+                  StatusNotification.Status.FAIL,
+                  StatusNotification.DisplayMode.FLOAT_MODE);
+            });
   }
 }
