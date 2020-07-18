@@ -8,10 +8,15 @@
  */
 package edu.nju.seg.mlb;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import org.eclipse.che.api.core.ConflictException;
+import org.eclipse.che.api.core.NotFoundException;
+import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.fs.server.FsManager;
 
 /**
@@ -37,7 +42,16 @@ public class MyService {
   @GET
   @Path("{name}")
   public String sayHello(@PathParam("name") String name) {
-    if (fsManager == null) return "Hello " + name + "!";
-    else return fsManager.toString();
+    if (fsManager == null) {
+      return "fsManager is null";
+    }
+    try {
+      return "Success! " + fsManager.readAsString(name.replaceAll("_", "/"));
+    } catch (NotFoundException | ConflictException | ServerException e) {
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      e.printStackTrace(pw);
+      return sw.toString();
+    }
   }
 }
