@@ -8,8 +8,7 @@
  */
 package edu.nju.seg.mlb;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +17,7 @@ import org.eclipse.che.api.core.ConflictException;
 import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.fs.server.FsManager;
+import sun.nio.ch.ChannelInputStream;
 
 /**
  * Example server service that greets the user.
@@ -50,8 +50,15 @@ public class MyService {
       String path = name.replaceAll("_", "/");
       if (fsManager.exists(path)) {
         if (fsManager.isDir(path)) {
-          if (fsManager.zip(path) != null) return "InputStream is not null";
-          else return "InputStream is null";
+          InputStream inputStream = fsManager.zip(path);
+          if (inputStream instanceof ChannelInputStream) {
+            fsManager.unzip("temp", inputStream, true);
+            ChannelInputStream channelInputStream = (ChannelInputStream) inputStream;
+            //            OutputStream outputStream = null;
+            //            IOUtils.copy(channelInputStream, outputStream);
+            //            return outputStream.getClass().toString();
+            return channelInputStream.toString();
+          } else return "InputStream is not ChannelInputStream";
         } else return "Not exist such dir";
       } else return "Not exist such path";
     } catch (NotFoundException | ConflictException | ServerException e) {

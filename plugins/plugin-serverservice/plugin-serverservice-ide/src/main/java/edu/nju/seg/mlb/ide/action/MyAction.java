@@ -86,7 +86,7 @@ public class MyAction extends BaseAction {
         .catchError(
             error -> {
               notificationManager.notify(
-                  "Failed",
+                  "Error: " + error.getCause().getMessage(),
                   StatusNotification.Status.FAIL,
                   StatusNotification.DisplayMode.FLOAT_MODE);
             });
