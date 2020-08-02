@@ -42,7 +42,7 @@ public class MyAction extends BaseAction {
       final EditorAgent editorAgent,
       final AppContext appContext,
       final ProjectExplorerPresenter projectExplorerPresenter) {
-    super("Test Analyse", "MLB Action Description");
+    super("Test Analyse", "Generate test cases using MLB");
     StaticObject.notificationManager = notificationManager;
     StaticObject.serviceClient = serviceClient;
     StaticObject.editorAgent = editorAgent;
@@ -67,13 +67,7 @@ public class MyAction extends BaseAction {
           "请在项目目录上右键", StatusNotification.Status.FAIL, StatusNotification.DisplayMode.FLOAT_MODE);
       return;
     }
-    /*
-    // code for attemping the function : cursor right-click on file menu
-    String attempUrl = StaticObject.appContext.getWsAgentServerApiEndpoint();
-    String workspaceId = StaticObject.appContext.getWorkspaceId();
 
-    String testStr = attempUrl + " " + workspaceId;
-    */
     StaticObject.serviceClient
         .getHello(dirUrl.toString())
         .then(
@@ -92,7 +86,7 @@ public class MyAction extends BaseAction {
         .catchError(
             error -> {
               notificationManager.notify(
-                  "Error: " + error.getCause().getMessage(),
+                  error.getCause().getMessage(),
                   StatusNotification.Status.FAIL,
                   StatusNotification.DisplayMode.FLOAT_MODE);
             });
