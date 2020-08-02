@@ -61,11 +61,11 @@ public class MyAction extends BaseAction {
 
     if (selection.size() == 1 && selection.get(0) instanceof ContainerNode) {
       for (String seg : ((ContainerNode) selection.get(0)).getData().getLocation().segments())
-        dirUrl.append(seg + "_");
-
+        dirUrl.append(seg).append("_");
     } else {
       notificationManager.notify(
           "请在项目目录上右键", StatusNotification.Status.FAIL, StatusNotification.DisplayMode.FLOAT_MODE);
+      return;
     }
     /*
     // code for attemping the function : cursor right-click on file menu
@@ -78,10 +78,16 @@ public class MyAction extends BaseAction {
         .getHello(dirUrl.toString())
         .then(
             message -> {
-              notificationManager.notify(
-                  message,
-                  StatusNotification.Status.SUCCESS,
-                  StatusNotification.DisplayMode.FLOAT_MODE);
+              if (message.startsWith("Error:"))
+                notificationManager.notify(
+                    message.split(":")[1],
+                    StatusNotification.Status.FAIL,
+                    StatusNotification.DisplayMode.FLOAT_MODE);
+              else
+                notificationManager.notify(
+                    message,
+                    StatusNotification.Status.SUCCESS,
+                    StatusNotification.DisplayMode.FLOAT_MODE);
             })
         .catchError(
             error -> {

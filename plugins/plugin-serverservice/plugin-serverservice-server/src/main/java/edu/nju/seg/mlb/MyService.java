@@ -15,6 +15,9 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import org.eclipse.che.api.core.ConflictException;
+import org.eclipse.che.api.core.NotFoundException;
+import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.fs.server.FsManager;
 import sun.nio.ch.ChannelInputStream;
 
@@ -40,7 +43,9 @@ public class MyService {
     return sw.toString();
   }
 
-  private int sendInputStream(URL url, InputStream inputStream) throws IOException {
+  private String sendInputStream(URL url, InputStream inputStream, String projectPath)
+      throws IOException, ConflictException, NotFoundException, ServerException,
+          InterruptedException {
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     int timeout = 10000; // 10,000 ms = 10s
 
@@ -58,29 +63,43 @@ public class MyService {
 
     OutputStream out = conn.getOutputStream();
     DataInputStream in = new DataInputStream(inputStream);
+    String result = null;
     int bytes = 0;
-    int byteCopied = 0;
     byte[] bufferOut = new byte[2048];
     while ((bytes = in.read(bufferOut)) != -1) {
       out.write(bufferOut, 0, bytes);
-      byteCopied += bytes;
     }
     in.close();
     out.flush();
     out.close();
 
     if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      String line = null;
-      while ((line = reader.readLine()) != null) {
-        System.out.println("---line---" + line);
-      }
-    } else {
-      byteCopied = -conn.getResponseCode();
-    }
+      // 接收传来的 ZipInputStream 并保存到本地 gen.zip
+      InputStream responseStream = conn.getInputStream();
+      //            FileOutputStream fileOutputStream = new FileOutputStream(projectPath +
+      // "gen.zip");
+      //            IOUtils.copy(responseStream, fileOutputStream);
+      //
+      //            // 解压 gen.zip 得到 gen 文件夹
+      //            if (!fsManager.existsAsDir(projectPath + "gen")) {
+      //                fsManager.createDir(projectPath + "gen");
+      //            }
+      //            for (String wspath : fsManager.getAllChildrenWsPaths(projectPath + "gen"))
+      //                fsManager.delete(wspath); // 清空 gen 目录中的内容
 
+      fsManager.unzip(projectPath + "gen", responseStream, false);
+
+      result = "MLB 生成的文件在 gen 文件夹中";
+    } else {
+      BufferedReader br =
+          new BufferedReader(new InputStreamReader(conn.getErrorStream())); // 这里要用 getErrorStream()
+      StringBuilder sb = new StringBuilder();
+      String line = null;
+      while ((line = br.readLine()) != null) sb.append(line);
+      result = sb.toString();
+    }
     conn.disconnect();
-    return byteCopied;
+    return result;
   }
 
   /**
@@ -95,12 +114,12 @@ public class MyService {
     if (fsManager == null) {
       return "fsManager is null";
     }
-    String result = "";
 
     try {
-      String path = name.replaceAll("_", "/");
+      String path = name.replaceAll("_", "/"); // TODO: 用 _ 替换 / 只是暂时的解决方法
       if (fsManager.exists(path)) {
         if (fsManager.isDir(path)) {
+          if (fsManager.existsAsDir(path + "gen")) fsManager.delete(path + "gen", true);
           InputStream inputStream = fsManager.zip(path);
           if (inputStream instanceof ChannelInputStream) {
             //                        ChannelInputStream channelInputStream = (ChannelInputStream)
@@ -131,14 +150,11 @@ public class MyService {
             //                                fileOutputStream);
 
             URL url = new URL("http://210.28.132.122:8088/MLB_server_war_exploded/fileupload");
-            int byteCopied = 0;
             try {
-              byteCopied = sendInputStream(url, inputStream);
+              return sendInputStream(url, inputStream, path);
             } catch (IOException e) {
               return Exception2String(e);
             }
-
-            return "Bytes copied: " + byteCopied;
           } else return "InputStream is not ChannelInputStream";
         } else return "Not exist such dir";
       } else return "Not exist such path";
