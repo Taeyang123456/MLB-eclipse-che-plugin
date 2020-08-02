@@ -61,7 +61,7 @@ public class MyAction extends BaseAction {
 
     if (selection.size() == 1 && selection.get(0) instanceof ContainerNode) {
       for (String seg : ((ContainerNode) selection.get(0)).getData().getLocation().segments())
-        dirUrl.append(seg).append("_");
+        dirUrl.append(seg).append("——");
     } else {
       notificationManager.notify(
           "请在项目目录上右键", StatusNotification.Status.FAIL, StatusNotification.DisplayMode.FLOAT_MODE);
