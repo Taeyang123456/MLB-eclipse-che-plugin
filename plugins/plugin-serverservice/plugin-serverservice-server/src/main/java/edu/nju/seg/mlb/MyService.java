@@ -29,6 +29,7 @@ import sun.nio.ch.ChannelInputStream;
 @Path("hello")
 public class MyService {
   private FsManager fsManager;
+  private final String resultName = "MLBResult";
 
   @Inject
   public MyService(FsManager fsManager) {
@@ -46,7 +47,7 @@ public class MyService {
   private String sendInputStream(URL url, InputStream inputStream, String projectPath)
       throws IOException, ConflictException, NotFoundException, ServerException {
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    int timeout = 10000; // 10,000 ms = 10s
+    int timeout = 30000; // 1,000 ms = 1 s
 
     // 设置
     conn.setDoOutput(true);
@@ -73,14 +74,15 @@ public class MyService {
     out.close();
 
     if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-      // 接收传来的 ZipInputStream 并保存到本地 gen.zip
+      // 接收传来的 ZipInputStream 并保存到本地 MLBResult.zip
       InputStream responseStream = conn.getInputStream();
-      fsManager.unzip(projectPath + "gen", responseStream, false);
-      result = "MLB 生成的文件在 gen 文件夹中";
+      fsManager.unzip(projectPath + resultName, responseStream, false);
+      result = String.format("MLB 生成的文件和覆盖率情况在 %s 文件夹中", resultName);
     } else {
       BufferedReader br =
           new BufferedReader(new InputStreamReader(conn.getErrorStream())); // 这里要用 getErrorStream()
       StringBuilder sb = new StringBuilder();
+      sb.append("Error: code ").append(conn.getResponseCode()).append(" ====> ");
       String line = null;
       while ((line = br.readLine()) != null) sb.append(line);
       result = sb.toString();
@@ -103,13 +105,13 @@ public class MyService {
     }
 
     try {
-      String path = name.replaceAll("——", "/"); // TODO: 用 _ 替换 / 只是暂时的解决方法
+      String path = name.replaceAll("——", "/"); // 用 —— 替换 / 只是暂时的解决方法
       if (fsManager.exists(path)) {
         if (fsManager.isDir(path)) {
-          if (fsManager.existsAsDir(path + "gen")) fsManager.delete(path + "gen", true);
+          if (fsManager.existsAsDir(path + resultName)) fsManager.delete(path + resultName, true);
           InputStream inputStream = fsManager.zip(path);
           if (inputStream instanceof ChannelInputStream) {
-            URL url = new URL("http://210.28.132.122:8088/MLB_server_war_exploded/fileupload");
+            URL url = new URL("http://114.212.87.129:8088/MLBserver/fileupload");
             try {
               return sendInputStream(url, inputStream, path);
             } catch (IOException e) {

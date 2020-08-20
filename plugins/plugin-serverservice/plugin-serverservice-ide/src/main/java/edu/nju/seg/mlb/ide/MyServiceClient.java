@@ -54,7 +54,7 @@ public class MyServiceClient {
   public Promise<String> getHello(String name) {
     return asyncRequestFactory
         .createGetRequest(appContext.getWsAgentServerApiEndpoint() + "/hello/" + name)
-        .loader(loaderFactory.newLoader("Waiting for response..."))
+        .loader(loaderFactory.newLoader("MLB 后台处理中，请稍等..."))
         .send(new StringUnmarshaller());
   }
 }
