@@ -18,7 +18,7 @@
     </parent>
     <artifactId>plugin-mlb-parent</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Plugin :: Parent</name>
+    <name>Plugin MLBService :: Plugin :: Parent</name>
     <modules>
         <module>plugin-mlb-server</module>
         <module>plugin-mlb-ide</module>
@@ -30,7 +30,7 @@
                 <artifactId>gwt-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>edu.nju.seg.mlb.ServerServiceExtension</moduleName>
+                    <moduleName>edu.nju.seg.mlb.MLBServiceExtension</moduleName>
                 </configuration>
             </plugin>
         </plugins>

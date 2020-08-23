@@ -14,7 +14,7 @@ import org.eclipse.che.inject.DynaModule;
 
 /** Server service example Guice module for setting up a simple service. */
 @DynaModule
-public class ServerServiceGuiceModule extends AbstractModule {
+public class MLBServiceGuiceModule extends AbstractModule {
 
   @Override
   protected void configure() {

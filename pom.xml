@@ -20,7 +20,7 @@
     <artifactId>plugin-mlb</artifactId>
     <version>6.16.0</version>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Parent pom</name>
+    <name>Plugin MLBService :: Parent pom</name>
     <url>https://www.eclipse.org/che/</url>
     <licenses>
         <license>

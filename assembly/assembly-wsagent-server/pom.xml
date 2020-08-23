@@ -18,7 +18,7 @@
     </parent>
     <artifactId>assembly-wsagent-server</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Che Assembly :: Workspace Agent Tomcat Assembly</name>
+    <name>Plugin MLBService :: Che Assembly :: Workspace Agent Tomcat Assembly</name>
     <dependencies>
         <dependency>
             <groupId>edu.nju.seg.mlb</groupId>

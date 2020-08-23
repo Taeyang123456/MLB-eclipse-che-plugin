@@ -18,7 +18,7 @@
     </parent>
     <artifactId>assembly-wsagent-war</artifactId>
     <packaging>war</packaging>
-    <name>Plugin ServerService :: Che Assembly :: Workspace Agent Assembly</name>
+    <name>Plugin MLBService :: Che Assembly :: Workspace Agent Assembly</name>
     <dependencies>
         <dependency>
             <groupId>org.eclipse.che</groupId>

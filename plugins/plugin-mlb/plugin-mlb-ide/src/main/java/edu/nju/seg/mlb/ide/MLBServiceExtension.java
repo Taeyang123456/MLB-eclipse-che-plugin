@@ -21,7 +21,7 @@ import org.eclipse.che.ide.api.extension.Extension;
  * @author Edgar Mueller
  */
 @Extension(title = "Server Service Sample Extension", version = "0.0.1")
-public class ServerServiceExtension {
+public class MLBServiceExtension {
 
   /**
    * Constructor.
@@ -30,7 +30,7 @@ public class ServerServiceExtension {
    * @param myAction the action that calls the example server service
    */
   @Inject
-  public ServerServiceExtension(ActionManager actionManager, MyAction myAction) {
+  public MLBServiceExtension(ActionManager actionManager, MyAction myAction) {
 
     actionManager.registerAction("myAction", myAction);
 

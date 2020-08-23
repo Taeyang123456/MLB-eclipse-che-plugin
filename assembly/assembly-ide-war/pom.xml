@@ -18,7 +18,7 @@
     </parent>
     <artifactId>assembly-ide-war</artifactId>
     <packaging>war</packaging>
-    <name>Plugin ServerService :: Che Assembly :: IDE Assembly</name>
+    <name>Plugin MLBService :: Che Assembly :: IDE Assembly</name>
     <properties>
         <gwt.log.enable>false</gwt.log.enable>
         <generated.sources.directory>${project.build.directory}/generated-sources/gen</generated.sources.directory>

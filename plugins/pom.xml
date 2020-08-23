@@ -19,7 +19,7 @@
     </parent>
     <artifactId>plugin-parent</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Plugins ::  Parent</name>
+    <name>Plugin MLBService :: Plugins ::  Parent</name>
     <modules>
         <module>plugin-mlb</module>
     </modules>

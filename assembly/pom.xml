@@ -20,7 +20,7 @@
     <groupId>edu.nju.seg.mlb</groupId>
     <artifactId>plugin-mlb-assembly-parent</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Che Assembly :: Assembly Parent</name>
+    <name>Plugin MLBService :: Che Assembly :: Assembly Parent</name>
   <modules>
     <module>assembly-wsagent-war</module>
     <module>assembly-wsagent-server</module>

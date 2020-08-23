@@ -18,7 +18,7 @@
     </parent>
     <artifactId>assembly-main</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Che Assembly :: Assemblies Tomcat</name>
+    <name>Plugin MLBService :: Che Assembly :: Assemblies Tomcat</name>
     <dependencies>
         <dependency>
             <groupId>edu.nju.seg.mlb</groupId>
