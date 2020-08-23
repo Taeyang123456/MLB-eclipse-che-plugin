@@ -53,7 +53,7 @@ public class MyAction extends BaseAction {
   @Override
   public void actionPerformed(ActionEvent e) {
     // This calls the service in the workspace.
-    // This method is in our org.eclipse.che.plugin.serverservice.ide.MyServiceClient class
+    // This method is in our org.eclipse.che.plugin.mlb.ide.MyServiceClient class
     // This is a Promise, so the .then() method is invoked after the response is made
 
     List<?> selection = StaticObject.projectExplorerPresenter.getSelection().getAllElements();

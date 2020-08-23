@@ -12,13 +12,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>plugin-serverservice</artifactId>
+        <artifactId>plugin-mlb</artifactId>
         <groupId>edu.nju.seg.mlb</groupId>
         <version>6.16.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>edu.nju.seg.mlb</groupId>
-    <artifactId>plugin-serverservice-assembly-parent</artifactId>
+    <artifactId>plugin-mlb-assembly-parent</artifactId>
     <packaging>pom</packaging>
     <name>Plugin ServerService :: Che Assembly :: Assembly Parent</name>
   <modules>

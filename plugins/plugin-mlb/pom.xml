@@ -16,12 +16,12 @@
         <groupId>edu.nju.seg.mlb</groupId>
         <version>6.16.0</version>
     </parent>
-    <artifactId>plugin-serverservice-parent</artifactId>
+    <artifactId>plugin-mlb-parent</artifactId>
     <packaging>pom</packaging>
     <name>Plugin ServerService :: Plugin :: Parent</name>
     <modules>
-        <module>plugin-serverservice-server</module>
-        <module>plugin-serverservice-ide</module>
+        <module>plugin-mlb-server</module>
+        <module>plugin-mlb-ide</module>
     </modules>
     <build>
         <plugins>
