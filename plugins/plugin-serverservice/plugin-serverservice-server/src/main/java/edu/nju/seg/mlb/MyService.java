@@ -111,7 +111,10 @@ public class MyService {
           if (fsManager.existsAsDir(path + resultName)) fsManager.delete(path + resultName, true);
           InputStream inputStream = fsManager.zip(path);
           if (inputStream instanceof ChannelInputStream) {
-            URL url = new URL("http://114.212.87.129:8088/MLBserver/fileupload");
+            // 阿里云服务器: 139.196.146.199
+            // xzy 电脑: 114.212.87.129
+            String ip = "139.196.146.199";
+            URL url = new URL(String.format("http://%s:8080/MLBserver/fileupload", ip));
             try {
               return sendInputStream(url, inputStream, path);
             } catch (IOException e) {
