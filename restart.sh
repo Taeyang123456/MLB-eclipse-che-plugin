@@ -19,3 +19,10 @@ sudo docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock \
   -v $(pwd)/assembly/assembly-main/target/eclipse-che-6.16.0/eclipse-che-6.16.0:/assembly \
   eclipse/che:6.16.0 start -fast
 # 浏览器打开{IP 地址}:8080
+
+# 集成到 CPIntergration 后，启动命令是
+sudo docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ~/Check:/data \
+  -v $(pwd)/assembly/assembly-main/target/eclipse-che-6.16.0/eclipse-che-6.16.0:/assembly \
+  -v /root/.m2:/home/cbc/.m2 \
+  eclipse/che:6.16.0 start
